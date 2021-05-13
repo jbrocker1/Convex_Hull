@@ -36,21 +36,21 @@ class Point:
   def point(self) -> tuple:
     return self.x, self.y
 
-  def __str__(self):
+  def __str__(self) -> str:
     return "({}, {})".format(self.x, self.y)
 
 
+# gets angle of base point compared to other 2 points
 def angle(base: Point, p1: Point, p2: Point) -> float:
-  # sqrt((y2 - y1)**2 + (x2 - x1)**2)
   a = math.sqrt(math.pow((base.y - p1.y), 2) + math.pow((base.x - p1.x), 2))
   b = math.sqrt(math.pow((base.y - p2.y), 2) + math.pow((base.x - p2.x), 2))
   c = math.sqrt(math.pow((p1.y - p2.y), 2) + math.pow((p1.x - p2.x), 2))
-
   return math.degrees(math.acos((math.pow(a, 2) + math.pow(b, 2) - math.pow(c, 2)) / (2 * a * b)))
 
-def draw_points(win: pygame.Surface, points: [Point]):
+def draw_points(win: pygame.Surface, points: [Point]) -> None:
   for point in points:
     pygame.draw.circle(win, point_color, point.point(), point_size)
+
 
 def draw_hull(win: pygame.Surface, hull:  [Point], points: [Point], draw_ps: bool = True) -> None:
   win.fill(background)
@@ -62,7 +62,7 @@ def draw_hull(win: pygame.Surface, hull:  [Point], points: [Point], draw_ps: boo
     pygame.draw.line(win, hull_color, hull[i].point(), hull[i + 1].point(), line_size)
 
 
-def get_quit():
+def get_quit() -> None:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       pygame.quit()
@@ -130,7 +130,7 @@ def main() -> None:
       hull.append(outer_most)
       start_point = outer_most
       curr_point_index = 0
-      # check if we are done
+      # check if we have reached the original start point
       if outer_most == hull[0]:
         while pygame.display.get_active():
           get_quit()
@@ -138,6 +138,7 @@ def main() -> None:
           pygame.display.flip()
           time.sleep(.5)
     else:
+      # increment the checking point
       curr_point_index += 1
 
     # draw hull
