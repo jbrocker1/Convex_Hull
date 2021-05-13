@@ -1,9 +1,8 @@
 import math
-import random
-
 import pygame
 import time
 from random import randint
+from random import choice
 from sys import exit
 
 pygame.init()
@@ -13,20 +12,20 @@ pygame.mixer.quit()
 win_width = 1000
 win_height = 750
 
-num_points = 500
+num_points = 50
 
 background = (0, 0, 0)
 point_color = (255, 255, 255)
-curr_point_color = (255, 255, 255)
+curr_color = (255, 255, 255)
 outer_most_color = (0, 255, 0)
 hull_color = (0, 0, 255)
 
-point_size = 1
+point_size = 5
 line_size = 2
 
 buffer = 40
 
-fps = 60
+fps = 50
 
 class Point:
   def __init__(self, x_val: int, y_val: int):
@@ -89,7 +88,7 @@ def main() -> None:
   hull: [Point] = [start_point]
 
   curr_point_index = 0
-  outer_most = random.choice(points)
+  outer_most = choice(points)
 
   # game loop
   while True:
@@ -101,9 +100,9 @@ def main() -> None:
     # get point of curr point and random outer most point
     curr_point = points[curr_point_index]
     if curr_point_index == 0:
-      outer_most = random.choice(points)
+      outer_most = choice(points)
       while outer_most == start_point:
-        outer_most = random.choice(points)
+        outer_most = choice(points)
 
 
     # if we are just starting we check against the center
@@ -146,7 +145,7 @@ def main() -> None:
       draw_hull(win, hull, points)
 
     # draw left most point and checking point
-    pygame.draw.line(win, curr_point_color, start_point.point(), curr_point.point(), line_size)
+    pygame.draw.line(win, curr_color, start_point.point(), curr_point.point(), line_size)
     pygame.draw.line(win, outer_most_color, start_point.point(), outer_most.point(), line_size)
 
     get_quit()
